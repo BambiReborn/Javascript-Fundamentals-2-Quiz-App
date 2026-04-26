@@ -18,7 +18,7 @@ const quizQuestions = [
         answer: 3
     },
     {
-        question: "What is return on investment (ROI)?",
+        question: "What is Return On Investment (ROI)?",
         options: ["Profit or gain from an investment", "Total money spent", "Loss in investment", "Tax paid", "Loan amount"],
         answer: 0
     },
@@ -41,7 +41,7 @@ const optionsEl = document.getElementById("options");
 const nextBTN = document.getElementById("next-BTN");
 
 // Hide next button on load
-nextBTN.style.display = "none";
+// nextBTN.style.display = "none";
 
 // STEP 4 - Load question
 function loadQuestion() {
@@ -53,6 +53,7 @@ function loadQuestion() {
     questionEl.textContent = currentQuestion.question;
 
     optionsEl.innerHTML = "";
+    optionsEl.style.display = "flex";  // Ensure flex display
 
     currentQuestion.options.forEach(function(option, index) {
         const button = document.createElement("button");
@@ -69,6 +70,15 @@ function selectAnswer(selected) {
     optionSelected = selected;
 
     const currentQuestion = quizQuestions[currentQuestionNumber];
+    const allButtons = document.querySelectorAll("#options button");
+
+    // Disable all buttons and highlight the selected one
+    allButtons.forEach(function(btn, index) {
+        btn.disabled = true;
+        if (index === selected) {
+            btn.classList.add("selected");
+        }
+    });
 
     if (selected === currentQuestion.answer) {
         score = score + 1;
@@ -88,6 +98,7 @@ nextBTN.onclick = function() {
 
     if (currentQuestionNumber < quizQuestions.length) {
         nextBTN.style.display = "none";
+        // nextBTN.style.display.background = "#000"
         loadQuestion();
     } else {
         showResult();
@@ -102,7 +113,7 @@ function showResult() {
     nextBTN.style.display = "none";
 
     document.getElementById("finalScore").textContent = "You scored " + score + " out of " + quizQuestions.length;
-    document.getElementById("result").style.display = "block";
+    document.getElementById("result").style.display = "flex";
 }
 
 // STEP 8 - Restart
